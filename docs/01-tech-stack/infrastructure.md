@@ -2,7 +2,7 @@
 
 ## Deployment model
 
-Self-hosted on a dedicated Linux server. No cloud vendor dependency.
+Self-hosted on a dedicated Linux server. No cloud vendor dependency. This keeps base costs low (~$80–120/mo).
 
 ### Hardware estimate
 
@@ -13,7 +13,9 @@ Self-hosted on a dedicated Linux server. No cloud vendor dependency.
 | Storage | 256 GB SSD (OS, images, project data, logs) |
 | Network | 1 Gbps symmetric |
 
-## Services
+## Services (MVP)
+
+The MVP runs all services on a single machine. Post-MVP, the worker pool and scheduler can be split to separate machines.
 
 ```
 ┌─────────────┐     ┌─────────────┐     ┌─────────────┐
@@ -21,9 +23,9 @@ Self-hosted on a dedicated Linux server. No cloud vendor dependency.
 │  (reverse   │     │  (Axum)     │     │             │
 │   proxy)    │     │             │     └─────────────┘
 └─────────────┘     │             │     ┌─────────────┐
-       │            │             │────▶│    Redis     │
-       │            └──────┬──────┘     └─────────────┘
-       ▼                   ▼
+        │            │             │────▶│    Redis     │
+        │            └──────┬──────┘     └─────────────┘
+        ▼                   ▼
 ┌─────────────┐    ┌──────────────┐
 │  Next.js    │    │   Docker     │
 │ (frontend)  │    │  (containers)│

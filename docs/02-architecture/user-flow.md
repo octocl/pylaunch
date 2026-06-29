@@ -22,8 +22,27 @@ Visit pylaunch.dev
         ▼
   Click "Run"
         │
+        ├── Rate limited? ──▶ Show "Too many requests" with countdown
+        │
+        ├── Queue full? ──▶ Show "Queued — position #N" in footer
+        │
+        ▼
+  Container starting (2s)
+  (Footer: "Starting container...")
+        │
         ▼
   See live output in terminal panel
+  (Footer: "Running — 12.3s")
+        │
+        ├── WebSocket drops? ──▶ Auto-reconnect with "Reconnecting..." banner
+        │
+        ├── Timeout? ──▶ Show "Timed out — 60s limit" + partial output
+        │
+        ├── OOM? ──▶ Show "Script used too much memory"
+        │
+        ▼
+  Execution complete
+  (Footer: "Completed — 2.3s, exit code 0")
         │
         ▼
   Optional: "Sign up to save" prompt
@@ -42,6 +61,10 @@ Sign up / Log in
   │  • Execution history                │
   │  • Account settings (tier, email)   │
   └─────────────────────────────────────┘
+        │
+        ├── No projects? ──▶ Show welcome + "Create your first project"
+        │
+        ├── Search no results? ──▶ "No projects match your search"
         │
         ▼
   Open / create project

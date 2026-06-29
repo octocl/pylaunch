@@ -58,7 +58,7 @@ Return exit code + full output
 
 ## Security
 
-- `--network` — containers have internet access via the host bridge
+- `--network` — containers have internet access via the host bridge with egress filtering (iptables rules on the docker bridge restrict outbound traffic to HTTP/HTTPS/DNS only)
 - `--read-only` — container filesystem is read-only except `/tmp`
 - `--cap-drop=ALL` — drop all Linux capabilities
 - `--security-opt=no-new-privileges:true` — prevent privilege escalation

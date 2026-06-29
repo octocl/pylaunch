@@ -18,7 +18,7 @@ PyLaunch is a free, ad-supported cloud platform that runs Python scripts inside 
 
 ## Status
 
-This documentation describes the planned architecture for the MVP. Implementation may differ as the project evolves.
+**Design / planning phase — no implementation code exists.** The documentation describes the planned architecture for the MVP. All roadmap items reflect design intent, not completed implementation.
 
 ## Related
 

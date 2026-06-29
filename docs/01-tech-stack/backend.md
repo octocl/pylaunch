@@ -20,7 +20,11 @@
 
 ## Service structure
 
-The backend is a **monolithic web server** with clearly separated modules:
+The backend is designed as a **monolithic web server for the MVP**, with a clear path to service separation as the platform grows.
+
+### MVP (monolithic)
+
+A single Rust binary handles HTTP, WebSocket, and execution:
 
 ```
 src/
@@ -39,6 +43,38 @@ src/
 ├── models/           -- shared structs and enums
 └── config.rs         -- environment-based config
 ```
+
+**Monolithic trade-offs (accepted for MVP):**
+- If API server is busy with a long execution, other HTTP requests are handled via Tokio async concurrency
+- Resource contention between HTTP handling and Docker orchestration in the same process
+- Single point of failure (one process does everything)
+- Scaling requires duplicating the entire binary (can't scale workers independently)
+
+### Post-MVP: Separated services
+
+When scaling requires it, the monolith splits into independent services:
+
+```
+┌─────────────┐   ┌──────────────┐   ┌──────────────┐
+│   API       │   │  Worker Pool  │   │  Scheduler   │
+│   Server    │   │  (execution)  │   │  (cron)      │
+│             │   │              │   │              │
+│ • Auth      │   │ • Docker     │   │ • Scheduled  │
+│ • Projects  │   │   lifecycle  │   │   executions │
+│ • Rate      │   │ • Log stream │   │ • Webhook    │
+│   limits    │   │ • Output     │   │   triggers   │
+│             │   │   capture    │   │              │
+└──────┬──────┘   └──────┬───────┘   └──────┬───────┘
+       │                 │                   │
+       └─────────────────┼───────────────────┘
+                         ▼
+                 ┌──────────────┐
+                 │    Redis     │
+                 │ (queue/pub)  │
+                 └──────────────┘
+```
+
+Each service independently deployable and scalable. Communication via Redis pub/sub and a shared PostgreSQL database.
 
 ## API design
 

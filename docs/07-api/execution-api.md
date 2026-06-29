@@ -38,8 +38,22 @@ Submit code for execution.
 
 ### WebSocket stream
 
-Connect to `wss://pylaunch.dev/api/run/{execution_id}/stream` to receive live output:
+Connect to `wss://pylaunch.dev/api/run/{execution_id}/stream` to receive live output.
 
+**Authentication:**
+- Authenticated users: pass `Authorization: Bearer <token>` as a header during the WebSocket handshake (browser WebSocket API supports headers via `new WebSocket(url, { headers })` or `protocols` field)
+- Guest users: the WebSocket connection is tied to the IP address that created the execution (same-IP verification)
+- The server verifies the user owns the `execution_id` before streaming; unauthorized connections receive a 403 close frame
+
+**Verification flow:**
+1. Client initiates WebSocket upgrade to `wss://pylaunch.dev/api/run/{execution_id}/stream`
+2. Server reads the `Authorization` header from the upgrade request
+3. If valid JWT: verify the token's user_id matches the execution's owner_id
+4. If no JWT: verify the request IP matches the execution's creator IP
+5. On success: begin streaming stdout/stderr
+6. On failure: close connection with `403 Forbidden` close code
+
+**Protocol:**
 ```
 [stdout] Hello, world!
 [stderr] Warning: deprecated

@@ -38,6 +38,34 @@ Scripts that exceed the timeout are killed with SIGTERM, then SIGKILL after 5 se
 ## Output
 
 - stdout and stderr are interleaved in order
-- Output is limited to 1 MB per execution (excess is truncated with a warning)
+- Output is limited to 1 MB per execution (excess is truncated with a warning line: `[!] Output truncated at 1 MB`)
 - Exit code is always returned
 - Full output is saved in PostgreSQL for registered users
+
+## User-visible states during execution
+
+| State | What happens | User sees |
+|---|---|---|
+| **Queued** | Request waiting in Redis queue | Footer: "Queued — position #3" |
+| **Starting** | Docker container being created | Footer: "Starting container..." with spinner |
+| **Running** | Script executing | Footer: "Running — 12.3s" with live timer |
+| **Stopping** | Container being destroyed | Footer: "Stopping..." |
+| **Completed** | Script finished with exit code 0 | Footer: "Completed — 2.3s" in green |
+| **Failed** | Script finished with non-zero exit code | Footer: "Failed — exit code 1" in red |
+| **Timed out** | Execution exceeded time limit | Footer: "Timed out — 60s limit" with partial output |
+| **OOM killed** | Container ran out of memory | Footer: "Out of memory — 256 MB limit" |
+| **Error** | Infrastructure failure (Docker, network) | Footer: "Error — container failed to start" with retry button |
+| **Disconnected** | WebSocket lost | Banner: "Reconnecting..." with auto-retry |
+
+## Edge cases
+
+| Scenario | Behavior |
+|---|---|
+| User opens same project in two tabs | Each tab creates its own execution; no conflict |
+| User navigates away during execution | Execution continues; output saved to history |
+| User closes browser mid-execution | Container continues until timeout; output saved |
+| Browser tab goes to background | WebSocket may disconnect; auto-reconnect on return |
+| Multiple rapid "Run" clicks | Each click creates a new execution; free tier limited to 1 concurrent |
+| File upload exceeds size limit | Rejected with message: "File too large (max 1 MB)" |
+| Script with infinite loop | Killed at timeout; partial output returned |
+| pip install takes too long | Counts against execution timeout; no separate timeout |

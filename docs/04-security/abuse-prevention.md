@@ -7,7 +7,7 @@
 | Crypto mining | Resource limits (CPU/memory/timeout) make mining unprofitable |
 | DDoS / spam | Rate limiting + IP reputation + CAPTCHA for guest execution |
 | Code injection | Docker isolation prevents host access |
-| Data exfiltration | Network access is allowed; no sensitive host data is accessible in containers |
+| Data exfiltration | Egress filtering restricts outbound traffic to HTTP/HTTPS/DNS only. No sensitive host data is accessible in containers. |
 | Account farming | Email verification + CAPTCHA on signup |
 | Serving malicious content | Output is stored and logged; abuse reporting mechanism |
 | Resource exhaustion | Per-user and per-IP rate limits; queue depth limits |

@@ -1,6 +1,6 @@
 # Unique Selling Points
 
-PyLaunch differentiates itself by focusing on what matters to its users — speed, simplicity, and zero friction — rather than feature-count comparisons with competitors.
+PyLaunch differentiates itself by focusing on what matters to its users — speed, simplicity, and zero friction. See [competitive-analysis.md](./competitive-analysis.md) for a full comparison with Replit, Google Colab, PythonAnywhere, and Glitch.
 
 | USP | Details |
 |---|---|
