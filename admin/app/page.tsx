@@ -82,7 +82,7 @@ export default function Page() {
   };
 
   const agents = mem?.agents ?? [];
-  const connCmd = `(curl -sL https://raw.githubusercontent.com/octocl/pylaunch/main/admin/public/setup-agent.sh | bash -s -- https://your-server.com) 2>/dev/null || (wget -qO- https://raw.githubusercontent.com/octocl/pylaunch/main/admin/public/setup-agent.sh | bash -s -- https://your-server.com) 2>/dev/null || python3 -c "import urllib.request; print(urllib.request.urlopen('https://raw.githubusercontent.com/octocl/pylaunch/main/admin/public/setup-agent.sh').read().decode())" | bash -s -- https://your-server.com`;
+  const connCmd = `(curl -sL https://raw.githubusercontent.com/octocl/pylaunch/main/admin/public/setup-agent.sh | sudo bash -s -- https://your-server.com) 2>/dev/null || (wget -qO- https://raw.githubusercontent.com/octocl/pylaunch/main/admin/public/setup-agent.sh | sudo bash -s -- https://your-server.com) 2>/dev/null || python3 -c "import urllib.request; print(urllib.request.urlopen('https://raw.githubusercontent.com/octocl/pylaunch/main/admin/public/setup-agent.sh').read().decode())" | sudo bash -s -- https://your-server.com`;
 
   return (
     <div className="min-h-screen bg-[#101010] p-6 max-w-7xl mx-auto">
