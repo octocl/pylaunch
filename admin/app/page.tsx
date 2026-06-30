@@ -33,6 +33,7 @@ export default function Page() {
   const [editVal, setEditVal] = useState("");
   const [copied, setCopied] = useState(false);
   const [notif, setNotif] = useState<string | null>(null);
+  const [serverIP, setServerIP] = useState("localhost");
   const prevCount = useRef(0);
 
   const fetchAll = useCallback(async () => {
@@ -60,6 +61,7 @@ export default function Page() {
 
   useEffect(() => {
     fetchAll();
+    fetch("/api/admin/server-info").then(r => r.json()).then(d => setServerIP(d.ip)).catch(() => {});
     const id = setInterval(fetchAll, 5000);
     return () => clearInterval(id);
   }, [fetchAll]);
@@ -82,8 +84,8 @@ export default function Page() {
   };
 
   const agents = mem?.agents ?? [];
-  const origin = typeof window !== "undefined" ? window.location.origin : "http://localhost:3000";
-  const connCmd = `curl -sL https://raw.githubusercontent.com/octocl/pylaunch/main/admin/public/setup-agent.sh | bash -s -- ${origin}`;
+  const port = typeof window !== "undefined" ? window.location.port : "3000";
+  const connCmd = `curl -sL https://raw.githubusercontent.com/octocl/pylaunch/main/admin/public/setup-agent.sh | bash -s -- http://${serverIP}:${port}`;
 
   return (
     <div className="min-h-screen bg-[#101010] p-6 max-w-7xl mx-auto">
