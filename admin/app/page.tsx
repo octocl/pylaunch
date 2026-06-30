@@ -82,7 +82,8 @@ export default function Page() {
   };
 
   const agents = mem?.agents ?? [];
-  const connCmd = `curl -sL https://raw.githubusercontent.com/octocl/pylaunch/main/admin/public/setup-agent.sh | bash -s -- https://your-server.com`;
+  const origin = typeof window !== "undefined" ? window.location.origin : "http://localhost:3000";
+  const connCmd = `curl -sL https://raw.githubusercontent.com/octocl/pylaunch/main/admin/public/setup-agent.sh | bash -s -- ${origin}`;
 
   return (
     <div className="min-h-screen bg-[#101010] p-6 max-w-7xl mx-auto">
