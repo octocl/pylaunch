@@ -4,6 +4,8 @@ SERVER="${1:-http://localhost:3000}"
 AGENT_ID="$(hostname)-$(date +%s)"
 GITHUB_RAW="https://raw.githubusercontent.com/octocl/pylaunch/main/admin/public"
 
+[ "$EUID" = 0 ] || { command -v sudo &>/dev/null && exec sudo "$0" "$@"; exec su -c "\"$0\" $*"; }
+
 echo "==> PyLaunch Agent Setup (server: $SERVER)"
 
 install_pkg() {
