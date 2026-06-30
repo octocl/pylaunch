@@ -21,7 +21,11 @@ fi
 
 echo "==> Downloading agent..."
 mkdir -p /opt/pylaunch-agent
-curl -sL "$GITHUB_RAW/docker-agent.py" -o /opt/pylaunch-agent/agent.py
+if command -v curl &>/dev/null; then
+  curl -sL "$GITHUB_RAW/docker-agent.py" -o /opt/pylaunch-agent/agent.py
+elif command -v wget &>/dev/null; then
+  wget -qO /opt/pylaunch-agent/agent.py "$GITHUB_RAW/docker-agent.py"
+fi
 chmod +x /opt/pylaunch-agent/agent.py
 
 echo "==> Creating systemd service..."
