@@ -49,7 +49,7 @@ download "$GITHUB_RAW/docker-agent.py" > /opt/pylaunch-agent/agent.py
 chmod +x /opt/pylaunch-agent/agent.py
 
 echo "==> Installing service..."
-if command -v systemctl &>/dev/null && systemctl is-system-running --quiet 2>/dev/null; then
+if [ -d /run/systemd/system ]; then
   cat > /etc/systemd/system/pylaunch-agent.service <<UNIT
 [Unit]
 Description=PyLaunch Docker Agent
