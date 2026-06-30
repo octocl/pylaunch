@@ -49,7 +49,7 @@ download "$GITHUB_RAW/docker-agent.py" > /opt/pylaunch-agent/agent.py
 chmod +x /opt/pylaunch-agent/agent.py
 
 echo "==> Installing service..."
-if command -v systemctl &>/dev/null; then
+if command -v systemctl &>/dev/null && systemctl is-system-running --quiet 2>/dev/null; then
   cat > /etc/systemd/system/pylaunch-agent.service <<UNIT
 [Unit]
 Description=PyLaunch Docker Agent
@@ -69,6 +69,7 @@ WantedBy=multi-user.target
 UNIT
   systemctl daemon-reload
   systemctl enable --now pylaunch-agent.service
+  echo "==> Agent running! (id: $AGENT_ID)"
 elif command -v rc-update &>/dev/null; then
   cat > /etc/init.d/pylaunch-agent <<INIT
 #!/sbin/openrc-run
@@ -79,9 +80,12 @@ INIT
   chmod +x /etc/init.d/pylaunch-agent
   rc-update add pylaunch-agent default
   rc-service pylaunch-agent start
+  echo "==> Agent running! (id: $AGENT_ID)"
 else
-  nohup /opt/pylaunch-agent/agent.py &>/opt/pylaunch-agent/agent.log &
-  echo "==> Agent started in background (PID: $!)"
+  echo "==> Starting agent in foreground..."
+  echo "    Agent ID: $AGENT_ID   Server: $SERVER"
+  echo "    (Press Ctrl+C to stop)"
+  echo ""
+  cd /opt/pylaunch-agent
+  exec /opt/pylaunch-agent/agent.py
 fi
-
-echo "==> Agent running! (id: $AGENT_ID)"
