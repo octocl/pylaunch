@@ -1,3 +1,5 @@
+import { Logo } from "@/components/logo";
+
 export function SiteFooter() {
   const links = [
     { label: "About", href: "#" },
@@ -10,9 +12,7 @@ export function SiteFooter() {
     <footer className="border-t border-border">
       <div className="mx-auto flex max-w-7xl flex-col items-center justify-between gap-6 px-6 py-12 sm:flex-row">
         <div className="flex items-center gap-2">
-          <div className="flex h-6 w-6 items-center justify-center rounded-sm bg-primary text-xs font-bold text-primary-foreground">
-            P
-          </div>
+          <Logo className="scale-75 origin-left" />
           <span className="text-sm text-muted-foreground">
             &copy; {new Date().getFullYear()} PyLaunch
           </span>

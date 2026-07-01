@@ -1,11 +1,9 @@
-import { ActionButton } from "@/components/ui/action-button";
+import { InteractiveFolderGallery } from "@/components/ui/interactive-folder-gallery";
 
 export default function Demo() {
   return (
-    <div className="flex min-h-screen items-center justify-center bg-background">
-      <div className="flex max-w-sm items-center justify-center rounded-none border-2 border-border bg-background p-8">
-        <ActionButton />
-      </div>
+    <div className="w-full min-h-[800px] bg-[#0a0a0a] flex items-center justify-center overflow-hidden">
+      <InteractiveFolderGallery />
     </div>
   );
 }

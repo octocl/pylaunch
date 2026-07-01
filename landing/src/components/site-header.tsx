@@ -3,6 +3,7 @@
 import { Button } from "@/components/ui/button";
 import { Menu, X } from "lucide-react";
 import { useState } from "react";
+import { Logo } from "@/components/logo";
 
 const navLinks = [
   { label: "Features", href: "#features" },
@@ -16,11 +17,8 @@ export function SiteHeader() {
   return (
     <header className="fixed top-0 left-0 right-0 z-50 border-b border-border bg-background/80 backdrop-blur-md">
       <div className="mx-auto flex max-w-7xl items-center justify-between px-6 py-3">
-        <a href="/" className="flex items-center gap-2">
-          <div className="flex h-7 w-7 items-center justify-center rounded-sm bg-primary text-xs font-bold text-primary-foreground">
-            P
-          </div>
-          <span className="text-sm font-semibold text-foreground">PyLaunch</span>
+        <a href="/">
+          <Logo />
         </a>
 
         <nav className="hidden items-center gap-8 md:flex">
